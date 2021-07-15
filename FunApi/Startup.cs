@@ -29,6 +29,8 @@ namespace FunApi
         {
             services.AddControllers();
 
+            services.AddMvc();
+
             services.AddTransient<ApiDBContext>();
 
             services.AddDbContext<ApiDBContext>(opt =>

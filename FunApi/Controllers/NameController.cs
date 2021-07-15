@@ -1,6 +1,7 @@
 ﻿using FunApi.Context;
 using FunApi.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +21,26 @@ namespace FunApi.Controllers
         }
 
         [HttpGet("all")]
-        public List<Name> Get()
+        public async Task<List<Name>> GetAll()
         {
-            return _context.Names.ToList();
+            return await _context.Names.ToListAsync();
         }
 
-        public IActionResult Index()
+        [HttpPost("new")]
+        public async Task<IActionResult> Post(Name name)
         {
-            return View();
+            var names = await _context.Names.ToListAsync();
+            foreach (var savedName in names)
+            {
+                if (name.name == savedName.name)
+                {
+                    return BadRequest("Name already exists"); 
+                }
+            }
+            _context.Names.Add(name);
+            await _context.SaveChangesAsync();
+            return Ok(name);
         }
+
     }
 }
