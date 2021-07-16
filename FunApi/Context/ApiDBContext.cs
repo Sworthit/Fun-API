@@ -12,5 +12,7 @@ namespace FunApi.Context
         public ApiDBContext(DbContextOptions options) : base(options)
         { }
         public DbSet<Name> Names { get; set; }
+
+        public DbSet<GeneratedName> GeneratedNames { get; set; }
     }
 }

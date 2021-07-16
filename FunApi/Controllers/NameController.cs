@@ -38,6 +38,9 @@ namespace FunApi.Controllers
                 }
             }
             _context.Names.Add(name);
+            var generatedName = new GeneratedName();
+            generatedName.Name = name.name + "huehue";
+            _context.GeneratedNames.Add(generatedName);
             await _context.SaveChangesAsync();
             return Ok(name);
         }
