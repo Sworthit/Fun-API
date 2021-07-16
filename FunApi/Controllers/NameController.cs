@@ -1,5 +1,6 @@
 ﻿using FunApi.Context;
 using FunApi.Model;
+using FunApi.Services.NameService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,36 +14,29 @@ namespace FunApi.Controllers
     [Route("[controller]")]
     public class NameController : Controller
     {
-        private readonly ApiDBContext _context;
+        private readonly INameService _service;
 
-        public NameController(ApiDBContext context)
+        public NameController(INameService service)
         {
-            _context = context;
+            _service = service;
         }
 
         [HttpGet("all")]
-        public async Task<List<Name>> GetAll()
+        public async Task<ServiceResponse<List<Name>>> GetAll()
         {
-            return await _context.Names.ToListAsync();
+            return await _service.GetAllNames();
         }
 
-        [HttpPost("new")]
-        public async Task<IActionResult> Post(Name name)
+        [HttpPost]
+        public async Task<ServiceResponse<Name>> Post(Name name)
         {
-            var names = await _context.Names.ToListAsync();
-            foreach (var savedName in names)
-            {
-                if (name.name == savedName.name)
-                {
-                    return BadRequest("Name already exists"); 
-                }
-            }
-            _context.Names.Add(name);
-            var generatedName = new GeneratedName();
-            generatedName.Name = name.name + "huehue";
-            _context.GeneratedNames.Add(generatedName);
-            await _context.SaveChangesAsync();
-            return Ok(name);
+            return await _service.AddName(name);
+        }
+
+        [HttpGet("{name}")]
+        public async Task<ServiceResponse<Name>> GetByName(string name)
+        {
+            return await _service.GetName(name);
         }
 
     }

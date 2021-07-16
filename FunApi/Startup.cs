@@ -1,4 +1,5 @@
 using FunApi.Context;
+using FunApi.Services.NameService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,8 @@ namespace FunApi
             services.AddMvc();
 
             services.AddTransient<ApiDBContext>();
+
+            services.AddScoped<INameService, NameService>();
 
             services.AddDbContext<ApiDBContext>(opt =>
           {
