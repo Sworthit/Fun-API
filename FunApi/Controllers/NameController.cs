@@ -22,13 +22,13 @@ namespace FunApi.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ServiceResponse<List<Name>>> GetAll()
+        public async Task<ServiceResponse<List<Name>>> GetAllNames()
         {
             return await _service.GetAllNames();
         }
 
         [HttpPost]
-        public async Task<ServiceResponse<Name>> Post(Name name)
+        public async Task<ServiceResponse<Name>> SaveName(Name name)
         {
             return await _service.AddName(name);
         }

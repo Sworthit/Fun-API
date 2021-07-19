@@ -30,6 +30,7 @@ namespace FunApi.Services.NameService
                 }
             }
             serviceResponse.Data = newName;
+            serviceResponse.Message = "Name Successfully saved in the database";
 
             _context.Names.Add(newName);
             await _context.SaveChangesAsync();

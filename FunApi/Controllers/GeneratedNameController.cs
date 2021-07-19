@@ -1,5 +1,6 @@
 ﻿using FunApi.Context;
 using FunApi.Model;
+using FunApi.Services.GeneratorService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,18 +12,17 @@ namespace FunApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class GeneratedNameController : Controller
+    public class GeneratorController : Controller
     {
-        private ApiDBContext _context;
-        public GeneratedNameController(ApiDBContext context)
+        private readonly IGeneratorService _generatorService;
+        public GeneratorController(IGeneratorService generatorService)
         {
-            _context = context;
+            _generatorService = generatorService;
         }
-        [HttpGet("all")]
-        public async Task<List<GeneratedName>> Get()
+        [HttpGet("{name}")]
+        public async Task<ServiceResponse<GeneratedName>> Get(string name)
         {
-            var allNames = await _context.GeneratedNames.ToListAsync();
-            return allNames;
+            return await _generatorService.GetGeneratedName(name);
         }
     }
 }
