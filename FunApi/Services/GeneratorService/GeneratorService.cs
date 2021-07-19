@@ -34,6 +34,8 @@ namespace FunApi.Services.GeneratorService
             }
             var generatedName = new GeneratedName();
             generatedName.Name = GenerateName(nameObject.name);
+            var generatedDate = DateTime.UtcNow;
+            generatedName.GeneratedDate = generatedDate;
 
             serviceResponse.Data = generatedName;
 
@@ -47,11 +49,14 @@ namespace FunApi.Services.GeneratorService
             {
                 case 0:
                     return GetPermutatedName(name);
+                case 1:
+                    return GetMirroredName(name);
+                case 2:
+                    return GetReversedName(name);
                 default:
                     methodChooser = 0;
-                    break;
+                    return GetPermutatedName(name);
             }
-            return "NONAME";     
         }
 
         private void FindPermutations(string word, out List<string> result)
@@ -82,21 +87,47 @@ namespace FunApi.Services.GeneratorService
             List<string> nameList = new List<string>();
             FindPermutations(name, out nameList);
             Random random = new Random();
-
             var nameListWithoutDuplicates = nameList.Distinct().ToArray();
-            List<string> nameListWithProperLetters = new List<string>();
-            foreach (var names in nameListWithoutDuplicates)
-            {
-                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-                nameListWithProperLetters.Add(textInfo.ToTitleCase(names));
-            }
+
             if (nameList.Count >= 0)
             {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
                 int randomInt = random.Next(0, nameList.Count);
-                return nameListWithProperLetters[randomInt];
+                methodChooser++;
+                return textInfo.ToTitleCase(nameListWithoutDuplicates[randomInt]);
             }
             else
+                methodChooser++;
                 return "NO NAME FOUND";
+
+        }
+
+        private string GetMirroredName(string name)
+        {
+            char[] nameArray = name.ToCharArray();
+            int j = 0;
+            for (int i = nameArray.Length - 1; i > nameArray.Length/2; i-- )
+            {
+                nameArray[i] = char.ToLower(nameArray[j]);
+                j++;
+            }
+            methodChooser++;
+            return new string(nameArray); 
+        }
+
+        private string GetReversedName(string name)
+        {
+            char[] nameArray = name.ToCharArray();
+            Array.Reverse(nameArray);
+            for (int i = 0; i < nameArray.Length; i++)
+            {
+                if (i == 0)
+                    nameArray[i] = char.ToUpper(nameArray[i]);
+                else
+                    nameArray[i] = char.ToLower(nameArray[i]);
+            }
+            methodChooser++;
+            return new string(nameArray);
         }
     }
 }
