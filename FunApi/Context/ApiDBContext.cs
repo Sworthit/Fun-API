@@ -14,5 +14,13 @@ namespace FunApi.Context
         public DbSet<Name> Names { get; set; }
 
         public DbSet<GeneratedName> GeneratedNames { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Name>().HasData(
+                new Name { Id = 1, name = "Mat" },
+                new Name { Id = 2, name = "Maciek"}
+                );
+        }
     }
 }

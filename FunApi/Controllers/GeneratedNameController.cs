@@ -24,5 +24,11 @@ namespace FunApi.Controllers
         {
             return await _generatorService.GetGeneratedName(name);
         }
+
+        [HttpPost]
+        public async Task<ServiceResponse<GeneratedName>> SaveGeneratedName(GeneratedName generatedName)
+        {
+            return await _generatorService.AddGeneratedName(generatedName);
+        }
     }
 }

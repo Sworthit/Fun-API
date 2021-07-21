@@ -20,6 +20,32 @@ namespace FunApi.Services.GeneratorService
             _context = context;
         }
 
+        public async Task<ServiceResponse<GeneratedName>> AddGeneratedName(GeneratedName name)
+        {
+            ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
+
+            var namesList = await _context.GeneratedNames.ToListAsync();
+
+            foreach(var generatedName in namesList)
+            {
+                if (name.Name == generatedName.Name)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "That name is already taken. Generated at : " + generatedName.GeneratedDate.ToString();
+                    serviceResponse.Data = generatedName;
+                    return serviceResponse;
+                }
+            }
+            name.GeneratedDate = DateTime.Now.ToUniversalTime();
+            _context.GeneratedNames.Add(name);
+            await _context.SaveChangesAsync();
+
+            serviceResponse.Data = name;
+            serviceResponse.Message = "Name successfully saved in the database enjoy your unique name!";
+
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<GeneratedName>> GetGeneratedName(string name)
         {
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
@@ -29,13 +55,12 @@ namespace FunApi.Services.GeneratorService
             if (nameObject == null)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Could not find name in the database";
+                serviceResponse.Message = "Could not find name in the database. Add it first to check if it's a valid name";
                 return serviceResponse;
             }
             var generatedName = new GeneratedName();
             generatedName.Name = GenerateName(nameObject.name);
-            var generatedDate = DateTime.UtcNow;
-            generatedName.GeneratedDate = generatedDate;
+            generatedName.GeneratedDate = DateTime.Now.ToUniversalTime();
 
             serviceResponse.Data = generatedName;
 
