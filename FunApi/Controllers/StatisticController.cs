@@ -1,5 +1,6 @@
 ﻿using FunApi.Context;
 using FunApi.Model;
+using FunApi.Services.StatisticService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,63 +14,35 @@ namespace FunApi.Controllers
     [Route("[controller]")]
     public class StatisticController : Controller
     {
-        private readonly ApiDBContext _context;
+        private readonly IStatisticService _service;
 
-        public StatisticController(ApiDBContext context)
+        public StatisticController(IStatisticService service)
         {
-            _context = context;
+            _service = service;
         }
         
         [HttpGet("avg")]
         public async Task<ServiceResponse<double>> GetAvgNameLength()
         {
-            ServiceResponse<double> serviceResponse = new ServiceResponse<double>();
-            var nameList = await _context.GeneratedNames.ToListAsync();
-
-            if (nameList == null)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "Could not fetch data";
-                return serviceResponse;
-            }
-            serviceResponse.Message = "Avarage name length calculated, names found : " + nameList.Count.ToString();
-            serviceResponse.Data = Statistic.CalculateAvgNameLength(nameList);
-
-            return serviceResponse;
+            return await _service.GetAvgNameLength();
         }
 
         [HttpGet("shortest")]
         public async Task<ServiceResponse<GeneratedName>> GetShortestName()
         {
-            ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
-            var nameList = await _context.GeneratedNames.ToListAsync();
-
-            if (nameList == null)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "Could not fetch data";
-                return serviceResponse;
-            }
-            serviceResponse.Data = Statistic.GetShortestName(nameList);
-
-            return serviceResponse;
+            return await _service.GetShortestName();
         }
 
         [HttpGet("longest")]
         public async Task<ServiceResponse<GeneratedName>> GetLongestName()
         {
-            ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
-            var nameList = await _context.GeneratedNames.ToListAsync();
+            return await _service.GetLongestName();
+        }
 
-            if (nameList == null)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "Could not fetch data";
-                return serviceResponse;
-            }
-            serviceResponse.Data = Statistic.GetLongestName(nameList);
-
-            return serviceResponse;
+        [HttpGet("today")]
+        public async Task<ServiceResponse<List<GeneratedName>>> GetNamesGeneratedToday()
+        {
+            return await _service.GetNamesGeneratedToday();
         }
     }
 }

@@ -8,58 +8,55 @@ namespace FunApi.Model
 {
     public class Statistic
     {
-        public static double? AvgNameLength { get; set; }
+        private static double _avgNameLength;
         
-        public static GeneratedName ShortestName { get; set; }
+        private static GeneratedName _shortestName { get; set; }
         
-        public static GeneratedName LongestName { get; set; }
+        private static GeneratedName _longestName { get; set; }
 
+        private static List<GeneratedName> _generatedNamesToday { get; set; }
         public static double CalculateAvgNameLength(List<GeneratedName> nameList)
         {
-            if (AvgNameLength == null)
+            _avgNameLength = 0;
+            int sum = 0;
+            foreach (var name in nameList)
             {
-                int sum = 0;
-                foreach (var name in nameList)
-                {
-                    sum += name.Name.Length;
-                }
-                AvgNameLength = sum / nameList.Count;
+                sum += name.Name.Length;
             }
-            return AvgNameLength.Value;
+            _avgNameLength = sum / nameList.Count;
+            return _avgNameLength;
         }
 
         public static GeneratedName GetShortestName(List<GeneratedName> nameList)
         {
-            if (ShortestName == null)
-            {
-                var minName = nameList[0];
-                foreach (var name in nameList)
-                {
-                    if (name.Name.Length < minName.Name.Length)
-                    {
-                        minName = name;
-                    }
-                }
-                ShortestName = minName;
-            }
-            return ShortestName;
+            var sortedNames = nameList.OrderBy(n => n.Name.Length);
+            _shortestName = sortedNames.FirstOrDefault();
+            return _shortestName;
         }
 
         public static GeneratedName GetLongestName(List<GeneratedName> nameList)
         {
-            if (LongestName == null)
+            var sortedNames = nameList.OrderBy(n => n.Name.Length);
+            _longestName = sortedNames.LastOrDefault();
+            return _longestName;
+        }
+
+        public static List<GeneratedName> GetNamesGeneratedToday(List<GeneratedName> nameList)
+        {
+            var todayDate = DateTime.Now.ToUniversalTime();
+            if (_generatedNamesToday == null)
             {
-                var longName = nameList[0];
-                foreach (var name in nameList)
-                {
-                    if (name.Name.Length > longName.Name.Length)
-                    {
-                        longName = name;
-                    }
-                }
-                LongestName = longName;
+                _generatedNamesToday = new List<GeneratedName>();
             }
-            return LongestName;
+            _generatedNamesToday.Clear();
+            foreach(var name in nameList)
+            {
+                if (name.GeneratedDate.Date == todayDate.Date)
+                {
+                    _generatedNamesToday.Add(name);
+                }
+            }
+            return _generatedNamesToday;
         }
     }
 }

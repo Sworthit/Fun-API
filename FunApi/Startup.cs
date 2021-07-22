@@ -1,6 +1,7 @@
 using FunApi.Context;
 using FunApi.Services.GeneratorService;
 using FunApi.Services.NameService;
+using FunApi.Services.StatisticService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +38,7 @@ namespace FunApi
 
             services.AddScoped<INameService, NameService>();
             services.AddScoped<IGeneratorService, GeneratorService>();
+            services.AddScoped<IStatisticService, StatisticService>();
 
             services.AddDbContext<ApiDBContext>(opt =>
           {
