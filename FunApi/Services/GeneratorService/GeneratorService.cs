@@ -1,4 +1,5 @@
-﻿using FunApi.Context;
+﻿using FunApi.Constants;
+using FunApi.Context;
 using FunApi.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,7 +32,7 @@ namespace FunApi.Services.GeneratorService
                 if (name.Name == generatedName.Name)
                 {
                     serviceResponse.Success = false;
-                    serviceResponse.Message = "That name is already taken. Generated at : " + generatedName.GeneratedDate.ToString();
+                    serviceResponse.Message = Messages.GeneratedNameFailed(generatedName.GeneratedDate);
                     serviceResponse.Data = generatedName;
                     return serviceResponse;
                 }
@@ -41,7 +42,7 @@ namespace FunApi.Services.GeneratorService
             await _context.SaveChangesAsync();
 
             serviceResponse.Data = name;
-            serviceResponse.Message = "Name successfully saved in the database enjoy your unique name!";
+            serviceResponse.Message = Messages.GeneratedNameSuccess;
 
             return serviceResponse;
         }
@@ -55,17 +56,34 @@ namespace FunApi.Services.GeneratorService
             if (nameObject == null)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Could not find name in the database. Add it first to check if it's a valid name";
+                serviceResponse.Message = Messages.NameDoesNotExist;
                 return serviceResponse;
             }
             var generatedName = new GeneratedName();
             generatedName.Name = GenerateName(nameObject.name);
             generatedName.GeneratedDate = DateTime.Now.ToUniversalTime();
 
+            serviceResponse.Message = Messages.GenerateName;
             serviceResponse.Data = generatedName;
 
             return serviceResponse;
 
+        }
+
+        public async Task<ServiceResponse<GeneratedName>> GetLuckyShotName()
+        {
+            ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
+            Random random = new Random();
+            var nameList = await _context.Names.ToListAsync();
+            int randomIndex = random.Next(nameList.Count);
+
+            var generatedName = new GeneratedName();
+            generatedName.Name = GenerateName(nameList[randomIndex].name);
+            generatedName.GeneratedDate = DateTime.Now.ToUniversalTime();
+            serviceResponse.Message = Messages.GenerateName;
+            serviceResponse.Data = generatedName;
+
+            return serviceResponse;
         }
 
         private string GenerateName(string name)
@@ -154,5 +172,7 @@ namespace FunApi.Services.GeneratorService
             methodChooser++;
             return new string(nameArray);
         }
+
+        
     }
 }

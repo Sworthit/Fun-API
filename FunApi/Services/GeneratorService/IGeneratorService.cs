@@ -10,5 +10,6 @@ namespace FunApi.Services.GeneratorService
     {
         Task<ServiceResponse<GeneratedName>> GetGeneratedName(string name);
         Task<ServiceResponse<GeneratedName>> AddGeneratedName(GeneratedName name);
+        Task<ServiceResponse<GeneratedName>> GetLuckyShotName();
     }
 }

@@ -1,4 +1,5 @@
-﻿using FunApi.Context;
+﻿using FunApi.Constants;
+using FunApi.Context;
 using FunApi.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,10 +24,10 @@ namespace FunApi.Services.StatisticService
             if (nameList == null)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Could not fetch data";
+                serviceResponse.Message = Messages.GetNamesFailed;
                 return serviceResponse;
             }
-            serviceResponse.Message = "Avarage name length calculated, names found : " + nameList.Count.ToString();
+            serviceResponse.Message = Messages.GetNamesAmount(nameList.Count);
             serviceResponse.Data = Statistic.CalculateAvgNameLength(nameList);
 
             return serviceResponse;
@@ -40,10 +41,11 @@ namespace FunApi.Services.StatisticService
             if (nameList == null)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Could not fetch data";
+                serviceResponse.Message = Messages.GetNamesFailed;
                 return serviceResponse;
             }
             serviceResponse.Data = Statistic.GetLongestName(nameList);
+            serviceResponse.Message = Messages.GetSuccess;
 
             return serviceResponse;
         }
@@ -56,10 +58,11 @@ namespace FunApi.Services.StatisticService
             if (nameList == null)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Could not fetch data";
+                serviceResponse.Message = Messages.GetNamesFailed;
                 return serviceResponse;
             }
             serviceResponse.Data = Statistic.GetShortestName(nameList);
+            serviceResponse.Message = Messages.GetSuccess;
 
             return serviceResponse;
         }
@@ -71,10 +74,12 @@ namespace FunApi.Services.StatisticService
             if (nameList == null)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Could not fetch data";
+                serviceResponse.Message = Messages.GetNamesSuccess;
                 return serviceResponse;
             }
+
             serviceResponse.Data = Statistic.GetNamesGeneratedToday(nameList);
+            serviceResponse.Message = Messages.GetNamesSuccess;
 
             return serviceResponse;
         }

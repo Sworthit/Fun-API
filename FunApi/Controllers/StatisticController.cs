@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace FunApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("admin/[controller]")]
     public class StatisticController : Controller
     {
         private readonly IStatisticService _service;

@@ -9,12 +9,12 @@ namespace FunApi.Model
     public class Statistic
     {
         private static double _avgNameLength;
-        
-        private static GeneratedName _shortestName { get; set; }
-        
-        private static GeneratedName _longestName { get; set; }
 
-        private static List<GeneratedName> _generatedNamesToday { get; set; }
+        private static GeneratedName _shortestName;
+
+        private static GeneratedName _longestName;
+
+        private static List<GeneratedName> _generatedNamesToday;
         public static double CalculateAvgNameLength(List<GeneratedName> nameList)
         {
             _avgNameLength = 0;

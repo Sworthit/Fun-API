@@ -30,5 +30,11 @@ namespace FunApi.Controllers
         {
             return await _generatorService.AddGeneratedName(generatedName);
         }
+
+        [HttpGet("luckyshot")]
+        public async Task<ServiceResponse<GeneratedName>> GetLuckShotName()
+        {
+            return await _generatorService.GetLuckyShotName();
+        }
     }
 }
