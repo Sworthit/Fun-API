@@ -18,6 +18,7 @@ namespace FunApi.Constants
         public static string GenerateName = "Name generated.";
         public static string NameIsNotValid = "Name should only contain letters";
         public static string NameIsValid = "Name is valid";
+        public static string NameExistsInNameDatabase = "Name is not unique, it exists in name database.";
         public static string ElonMuskException = "Name must be valid, not unlike Elon's child";
         public static string GetNamesAmount(int amount)
         {

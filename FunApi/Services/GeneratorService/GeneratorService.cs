@@ -26,6 +26,7 @@ namespace FunApi.Services.GeneratorService
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
 
             var namesList = await _context.GeneratedNames.ToListAsync();
+            var existingNameList = await _context.Names.ToListAsync();
 
             foreach(var generatedName in namesList)
             {
@@ -34,6 +35,15 @@ namespace FunApi.Services.GeneratorService
                     serviceResponse.Success = false;
                     serviceResponse.Message = Messages.GeneratedNameFailed(generatedName.GeneratedDate);
                     serviceResponse.Data = generatedName;
+                    return serviceResponse;
+                }
+            }
+            foreach(var existingName in existingNameList)
+            {
+                if (name.Name == existingName.name)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = Messages.NameExistsInNameDatabase;
                     return serviceResponse;
                 }
             }
