@@ -4,6 +4,7 @@ using FunApi.Controllers;
 using FunApi.Model;
 using FunApi.Services.GeneratorService;
 using FunApi.Services.NameService;
+using FunApi.Services.StatisticService;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
@@ -15,7 +16,7 @@ using Xunit;
 
 namespace FunApi.Test
 {
-    public class ControllerTest
+    public class ControllerTest : DBTestContext
     {
         
         [Fact]
@@ -109,6 +110,142 @@ namespace FunApi.Test
             var result = await generatorController.SaveGeneratedName(alreadyBookedNameObj.Data);
             // Assert
             Assert.Equal(alreadyBookedNameObj.Success, result.Success);
+        }
+
+        [Fact]
+        public async Task Should_ServiceController_ReturnAvgNameLength()
+        {
+            // Arrange
+            var generatedName = new GeneratedName()
+            {
+                Name = "Test"
+            };
+            DbContext.GeneratedNames.Add(generatedName);
+            DbContext.SaveChanges();
+            var generatedNameResponse = new ServiceResponse<double>()
+            {
+                Data = generatedName.Name.Length
+            };
+            var statisticServiceMock = new Mock<IStatisticService>();
+            statisticServiceMock.Setup(s => s.GetAvgNameLength()).ReturnsAsync(generatedNameResponse);
+
+            StatisticController statisticController = new StatisticController(statisticServiceMock.Object);
+
+            // Act
+            var result = await statisticController.GetAvgNameLength();
+            // Assert
+            Assert.Equal(generatedName.Name.Length, result.Data);
+        }
+
+        [Fact]
+        public async Task Should_ServiceController_ReturnLongestName()
+        {
+            // Arrange
+            var shortName = new GeneratedName()
+            {
+                Name = "Short"
+            };
+            var longName = new GeneratedName()
+            {
+                Name = "Longer"
+            };
+            var longestName = new GeneratedName()
+            {
+                Name = "Longestest"
+            };
+            var generatedResponse = new ServiceResponse<GeneratedName>()
+            {
+                Data = longestName
+            };
+            DbContext.GeneratedNames.Add(shortName);
+            DbContext.GeneratedNames.Add(longName);
+            DbContext.GeneratedNames.Add(longestName);
+            DbContext.SaveChanges();
+            var statisticServiceMock = new Mock<IStatisticService>();
+            statisticServiceMock.Setup(s => s.GetLongestName()).ReturnsAsync(generatedResponse);
+
+            StatisticController statisticController = new StatisticController(statisticServiceMock.Object);
+
+            // Act
+            var result = await statisticController.GetLongestName();
+            // Assert
+            Assert.Equal(longestName.Name, result.Data.Name);
+        }
+
+        [Fact]
+        public async Task Should_ServiceController_ReturnShortestName()
+        {
+            // Arrange
+            var shortName = new GeneratedName()
+            {
+                Name = "Short"
+            };
+            var longName = new GeneratedName()
+            {
+                Name = "Longer"
+            };
+            var longestName = new GeneratedName()
+            {
+                Name = "Longestest"
+            };
+            var generatedResponse = new ServiceResponse<GeneratedName>()
+            {
+                Data = shortName
+            };
+            DbContext.GeneratedNames.Add(shortName);
+            DbContext.GeneratedNames.Add(longName);
+            DbContext.GeneratedNames.Add(longestName);
+            DbContext.SaveChanges();
+            var statisticServiceMock = new Mock<IStatisticService>();
+            statisticServiceMock.Setup(s => s.GetShortestName()).ReturnsAsync(generatedResponse);
+
+            StatisticController statisticController = new StatisticController(statisticServiceMock.Object);
+
+            // Act
+            var result = await statisticController.GetShortestName();
+            // Assert
+            Assert.Equal(shortName.Name, result.Data.Name);
+        }
+
+        [Fact]
+        public async Task Should_ServiceController_ReturnNamesBookedToday()
+        {
+            // Arrange
+            var shortName = new GeneratedName()
+            {
+                Name = "Short",
+                GeneratedDate = new DateTime()
+            };
+            var longName = new GeneratedName()
+            {
+                Name = "Longer",
+                GeneratedDate = DateTime.Now.ToUniversalTime()
+        };
+            var longestName = new GeneratedName()
+            {
+                Name = "Longestest",
+                GeneratedDate = DateTime.Now.ToUniversalTime()
+            };
+            var todaysNameList = new List<GeneratedName>();
+            todaysNameList.Add(longName);
+            todaysNameList.Add(longestName);
+            var generatedResponse = new ServiceResponse<List<GeneratedName>>()
+            {
+                Data = todaysNameList
+            };
+            DbContext.GeneratedNames.Add(shortName);
+            DbContext.GeneratedNames.Add(longName);
+            DbContext.GeneratedNames.Add(longestName);
+            DbContext.SaveChanges();
+            var statisticServiceMock = new Mock<IStatisticService>();
+            statisticServiceMock.Setup(s => s.GetNamesGeneratedToday()).ReturnsAsync(generatedResponse);
+
+            StatisticController statisticController = new StatisticController(statisticServiceMock.Object);
+
+            // Act
+            var result = await statisticController.GetNamesGeneratedToday();
+            // Assert
+            Assert.Equal(todaysNameList.Count, result.Data.Count);
         }
     }
 }
