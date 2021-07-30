@@ -20,7 +20,7 @@ namespace FunApi.Controllers
         {
             _service = service;
         }
-        
+
         [HttpGet("avg")]
         public async Task<ServiceResponse<double>> GetAvgNameLength()
         {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FunApi.Services.NameService
 {
-    
+
     public class NameService : INameService
     {
         private ApiDBContext _context;
@@ -88,9 +88,9 @@ namespace FunApi.Services.NameService
         {
             ServiceResponse<bool> serviceResponse = new ServiceResponse<bool>();
 
-            if(!Regex.IsMatch(name, @"^[a-zA-Z]+$"))
+            if (!Regex.IsMatch(name, @"^[a-zA-Z]+$"))
             {
-                if(Regex.IsMatch(name, @"^[a-zA-Z0-9_]+$"))
+                if (Regex.IsMatch(name, @"^[a-zA-Z0-9_]+$"))
                 {
                     serviceResponse.Success = false;
                     serviceResponse.Data = false;

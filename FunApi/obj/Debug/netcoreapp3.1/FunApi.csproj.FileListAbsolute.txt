@@ -59,3 +59,4 @@ D:\Dev\Hyland\Fun API\FunApi\FunApi\obj\Debug\netcoreapp3.1\FunApi.csproj.CopyCo
 D:\Dev\Hyland\Fun API\FunApi\FunApi\obj\Debug\netcoreapp3.1\FunApi.dll
 D:\Dev\Hyland\Fun API\FunApi\FunApi\obj\Debug\netcoreapp3.1\FunApi.pdb
 D:\Dev\Hyland\Fun API\FunApi\FunApi\obj\Debug\netcoreapp3.1\FunApi.genruntimeconfig.cache
+D:\Dev\Hyland\Fun API\FunApi\FunApi\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll

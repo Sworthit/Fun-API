@@ -18,7 +18,7 @@ namespace FunApi.Test
 {
     public class ControllerTest : DBTestContext
     {
-        
+
         [Fact]
         public async Task Should_NameController_ReturnName()
         {
@@ -220,7 +220,7 @@ namespace FunApi.Test
             {
                 Name = "Longer",
                 GeneratedDate = DateTime.Now.ToUniversalTime()
-        };
+            };
             var longestName = new GeneratedName()
             {
                 Name = "Longestest",

@@ -21,7 +21,7 @@ namespace FunApi.Services.StatisticService
             ServiceResponse<double> serviceResponse = new ServiceResponse<double>();
             var nameList = await _context.GeneratedNames.ToListAsync();
 
-            if (nameList == null)
+            if (nameList.Count == 0)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = Messages.GetNamesFailed;
@@ -38,7 +38,7 @@ namespace FunApi.Services.StatisticService
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
             var nameList = await _context.GeneratedNames.ToListAsync();
 
-            if (nameList == null)
+            if (nameList.Count == 0)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = Messages.GetNamesFailed;
@@ -71,7 +71,7 @@ namespace FunApi.Services.StatisticService
             ServiceResponse<List<GeneratedName>> serviceResponse = new ServiceResponse<List<GeneratedName>>();
             var nameList = await _context.GeneratedNames.ToListAsync();
 
-            if (nameList == null)
+            if (nameList.Count == 0)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = Messages.GetNamesSuccess;

@@ -33,8 +33,8 @@ namespace FunApi.Controllers
             return await _service.AddName(name);
         }
 
-        [HttpGet("{name}")]
-        public async Task<ServiceResponse<Name>> GetByName(string name)
+        [HttpGet]
+        public async Task<ServiceResponse<Name>> GetByName([FromRoute]string name)
         {
             return await _service.GetName(name);
         }

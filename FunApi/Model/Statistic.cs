@@ -49,7 +49,7 @@ namespace FunApi.Model
                 _generatedNamesToday = new List<GeneratedName>();
             }
             _generatedNamesToday.Clear();
-            foreach(var name in nameList)
+            foreach (var name in nameList)
             {
                 if (name.GeneratedDate.Date == todayDate.Date)
                 {

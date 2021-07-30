@@ -19,7 +19,7 @@ namespace FunApi.Context
         {
             modelBuilder.Entity<Name>().HasData(
                 new Name { Id = 1, name = "Mat" },
-                new Name { Id = 2, name = "Maciek"}
+                new Name { Id = 2, name = "Maciek" }
                 );
         }
     }

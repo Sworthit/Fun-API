@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ua5YuN+tzhxlxDGRMChnFkAoXT/h2sLUeJ0sKjMB9dFkMtHdRQzUvJTFhlXpcmsEM7FWqrx8zHcPafJu5ppK1w==",
+  "dgSpecHash": "9Iv5xKaulOZMqeiK1MLT5Ub4j7a7cHO6iGpIdKuZBOsgkjzZ+yeqjGTlDg+5WYSnzWEvdVXOgYpk0lFbZugvQg==",
   "success": true,
   "projectFilePath": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj",
   "expectedPackageFiles": [
@@ -26,6 +26,7 @@
     "C:\\Users\\Macie\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\Macie\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
     "C:\\Users\\Macie\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\Macie\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\Macie\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.0.4\\sqlitepclraw.bundle_e_sqlite3.2.0.4.nupkg.sha512",
     "C:\\Users\\Macie\\.nuget\\packages\\sqlitepclraw.core\\2.0.4\\sqlitepclraw.core.2.0.4.nupkg.sha512",
     "C:\\Users\\Macie\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.0.4\\sqlitepclraw.lib.e_sqlite3.2.0.4.nupkg.sha512",

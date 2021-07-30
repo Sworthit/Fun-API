@@ -28,17 +28,16 @@ namespace FunApi.Services.GeneratorService
             var namesList = await _context.GeneratedNames.ToListAsync();
             var existingNameList = await _context.Names.ToListAsync();
 
-            foreach(var generatedName in namesList)
+            foreach (var generatedName in namesList)
             {
                 if (name.Name == generatedName.Name)
                 {
                     serviceResponse.Success = false;
                     serviceResponse.Message = Messages.GeneratedNameFailed(generatedName.GeneratedDate);
-                    serviceResponse.Data = generatedName;
                     return serviceResponse;
                 }
             }
-            foreach(var existingName in existingNameList)
+            foreach (var existingName in existingNameList)
             {
                 if (name.Name == existingName.name)
                 {
@@ -61,7 +60,7 @@ namespace FunApi.Services.GeneratorService
         {
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
 
-            var nameObject = await _context.Names.FirstOrDefaultAsync(n => n.name == name);
+            var nameObject = await _context.GeneratedNames.FirstOrDefaultAsync(n => n.Name == name);
 
             if (nameObject == null)
             {
@@ -69,12 +68,9 @@ namespace FunApi.Services.GeneratorService
                 serviceResponse.Message = Messages.NameDoesNotExist;
                 return serviceResponse;
             }
-            var generatedName = new GeneratedName();
-            generatedName.Name = GenerateName(nameObject.name);
-            generatedName.GeneratedDate = DateTime.Now.ToUniversalTime();
 
-            serviceResponse.Message = Messages.GenerateName;
-            serviceResponse.Data = generatedName;
+            serviceResponse.Message = Messages.GetNamesSuccess;
+            serviceResponse.Data = nameObject;
 
             return serviceResponse;
 
@@ -86,6 +82,12 @@ namespace FunApi.Services.GeneratorService
             Random random = new Random();
             var nameList = await _context.Names.ToListAsync();
             int randomIndex = random.Next(nameList.Count);
+            if (nameList.Count == 0)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = Messages.GetNamesFailed;
+                return serviceResponse;
+            }
 
             var generatedName = new GeneratedName();
             generatedName.Name = GenerateName(nameList[randomIndex].name);
@@ -98,7 +100,7 @@ namespace FunApi.Services.GeneratorService
 
         private string GenerateName(string name)
         {
-            switch(methodChooser)
+            switch (methodChooser)
             {
                 case 0:
                     return GetPermutatedName(name);
@@ -151,7 +153,7 @@ namespace FunApi.Services.GeneratorService
             }
             else
                 methodChooser++;
-                return "NO NAME FOUND";
+            return "NO NAME FOUND";
 
         }
 
@@ -159,13 +161,13 @@ namespace FunApi.Services.GeneratorService
         {
             char[] nameArray = name.ToCharArray();
             int j = 0;
-            for (int i = nameArray.Length - 1; i > nameArray.Length/2; i-- )
+            for (int i = nameArray.Length - 1; i > nameArray.Length / 2; i--)
             {
                 nameArray[i] = char.ToLower(nameArray[j]);
                 j++;
             }
             methodChooser++;
-            return new string(nameArray); 
+            return new string(nameArray);
         }
 
         private string GetReversedName(string name)
@@ -183,6 +185,6 @@ namespace FunApi.Services.GeneratorService
             return new string(nameArray);
         }
 
-        
+
     }
 }
