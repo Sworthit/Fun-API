@@ -8,7 +8,7 @@ namespace FunApi.Services.GeneratorService
 {
     public interface IGeneratorService
     {
-        Task<ServiceResponse<GeneratedName>> GetGeneratedName(string name);
+        Task<ServiceResponse<GeneratedName>> CheckIfGeneratedNameExist(string name);
         Task<ServiceResponse<GeneratedName>> AddGeneratedName(GeneratedName name);
         Task<ServiceResponse<GeneratedName>> GetLuckyShotName();
     }

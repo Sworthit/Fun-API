@@ -76,7 +76,7 @@ namespace FunApi.Test
             await InMemoryDatabase.SaveChangesAsync();
 
             // Act
-            var result = await _serviceUnderTest.GetGeneratedName(genNameString);
+            var result = await _serviceUnderTest.CheckIfGeneratedNameExist(genNameString);
 
             // Assert
             result.Data.ShouldBe(genName);
@@ -89,7 +89,7 @@ namespace FunApi.Test
             var nonExistingName = "none";
 
             // Act
-            var result = await _serviceUnderTest.GetGeneratedName(nonExistingName);
+            var result = await _serviceUnderTest.CheckIfGeneratedNameExist(nonExistingName);
 
             // Assert
             result.Data.ShouldBeNull();

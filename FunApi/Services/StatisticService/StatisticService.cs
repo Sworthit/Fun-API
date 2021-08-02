@@ -19,16 +19,17 @@ namespace FunApi.Services.StatisticService
         public async Task<ServiceResponse<double>> GetAvgNameLength()
         {
             ServiceResponse<double> serviceResponse = new ServiceResponse<double>();
-            var nameList = await _context.GeneratedNames.ToListAsync();
+            var nameListAvg = await _context.GeneratedNames.AverageAsync(n => (int?)n.Name.Length);
+            var nameListCount = await _context.GeneratedNames.CountAsync();
 
-            if (nameList.Count == 0)
+            if (!nameListAvg.HasValue || nameListCount == 0)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = Messages.GetNamesFailed;
                 return serviceResponse;
             }
-            serviceResponse.Message = Messages.GetNamesAmount(nameList.Count);
-            serviceResponse.Data = Statistic.CalculateAvgNameLength(nameList);
+            serviceResponse.Message = Messages.GetNamesAmount(nameListCount);
+            serviceResponse.Data = nameListAvg.Value;
 
             return serviceResponse;
         }
@@ -36,15 +37,16 @@ namespace FunApi.Services.StatisticService
         public async Task<ServiceResponse<GeneratedName>> GetLongestName()
         {
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
-            var nameList = await _context.GeneratedNames.ToListAsync();
+            var longestName = await _context.GeneratedNames.OrderByDescending(n => n.Name.Length).FirstOrDefaultAsync();
+            var nameListCount = await _context.GeneratedNames.CountAsync();
 
-            if (nameList.Count == 0)
+            if (longestName == null || nameListCount == 0)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = Messages.GetNamesFailed;
                 return serviceResponse;
             }
-            serviceResponse.Data = Statistic.GetLongestName(nameList);
+            serviceResponse.Data = longestName;
             serviceResponse.Message = Messages.GetSuccess;
 
             return serviceResponse;
@@ -53,15 +55,16 @@ namespace FunApi.Services.StatisticService
         public async Task<ServiceResponse<GeneratedName>> GetShortestName()
         {
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
-            var nameList = await _context.GeneratedNames.ToListAsync();
+            var shortestName = await _context.GeneratedNames.OrderByDescending(n => n.Name.Length).LastOrDefaultAsync();
+            var nameListCount = await _context.GeneratedNames.CountAsync();
 
-            if (nameList == null)
+            if (shortestName == null || nameListCount == 0)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = Messages.GetNamesFailed;
                 return serviceResponse;
             }
-            serviceResponse.Data = Statistic.GetShortestName(nameList);
+            serviceResponse.Data = shortestName;
             serviceResponse.Message = Messages.GetSuccess;
 
             return serviceResponse;
@@ -69,16 +72,17 @@ namespace FunApi.Services.StatisticService
         public async Task<ServiceResponse<List<GeneratedName>>> GetNamesGeneratedToday()
         {
             ServiceResponse<List<GeneratedName>> serviceResponse = new ServiceResponse<List<GeneratedName>>();
-            var nameList = await _context.GeneratedNames.ToListAsync();
+            var todayDate = DateTime.Now.ToUniversalTime();
+            var nameList = await _context.GeneratedNames.Where(n => n.GeneratedDate.Date == todayDate.Date).ToListAsync();
 
             if (nameList.Count == 0)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = Messages.GetNamesSuccess;
+                serviceResponse.Message = Messages.GetNamesFailed;
                 return serviceResponse;
             }
 
-            serviceResponse.Data = Statistic.GetNamesGeneratedToday(nameList);
+            serviceResponse.Data = nameList;
             serviceResponse.Message = Messages.GetNamesSuccess;
 
             return serviceResponse;

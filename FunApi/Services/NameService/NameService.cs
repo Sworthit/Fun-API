@@ -3,6 +3,7 @@ using FunApi.Context;
 using FunApi.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -29,15 +30,13 @@ namespace FunApi.Services.NameService
                 serviceResponse.Success = validationResponse.Success;
                 return serviceResponse;
             }
-            var names = await _context.Names.ToListAsync();
-            foreach (var savedName in names)
+            var nameInDb = await _context.Names.FirstOrDefaultAsync(n => n.name == newName.name);
+
+            if (nameInDb != null)
             {
-                if (newName.name == savedName.name)
-                {
-                    serviceResponse.Message = Messages.PostFailedUserExist;
-                    serviceResponse.Success = false;
-                    return serviceResponse;
-                }
+                serviceResponse.Message = Messages.PostFailedUserExist;
+                serviceResponse.Success = false;
+                return serviceResponse;
             }
             serviceResponse.Data = newName;
             serviceResponse.Message = Messages.PostSuccess;
@@ -84,17 +83,17 @@ namespace FunApi.Services.NameService
             return serviceResponse;
         }
 
-        public ServiceResponse<bool> ValidateName(string name)
+        private ServiceResponse<bool> ValidateName(string name)
         {
             ServiceResponse<bool> serviceResponse = new ServiceResponse<bool>();
 
             if (!Regex.IsMatch(name, @"^[a-zA-Z]+$"))
             {
-                if (Regex.IsMatch(name, @"^[a-zA-Z0-9_]+$"))
+                if (!Regex.IsMatch(name, @"^[a-zA-Z0-9]+$"))
                 {
                     serviceResponse.Success = false;
                     serviceResponse.Data = false;
-                    serviceResponse.Message = Messages.ElonMuskException;
+                    serviceResponse.Message = Messages.ElonMuskPunMessage;
                     return serviceResponse;
                 }
                 serviceResponse.Success = false;

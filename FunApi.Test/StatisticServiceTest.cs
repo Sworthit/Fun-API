@@ -52,8 +52,7 @@ namespace FunApi.Test
                 }
             };
             InMemoryDatabase.GeneratedNames.AddRange(nameList);
-            int sum = nameList.Select(x => x.Name.Length).Sum();
-            double expectedAvg = sum / nameList.Count();
+            double expectedAvg = nameList.Average(n => n.Name.Length);
             await InMemoryDatabase.SaveChangesAsync();
 
             // Act
@@ -206,7 +205,7 @@ namespace FunApi.Test
             var result = await _serviceUnderTest.GetNamesGeneratedToday();
 
             // Assert
-            result.Data.ShouldBeEmpty();
+            result.Data.ShouldBeNull();
         }
 
     }

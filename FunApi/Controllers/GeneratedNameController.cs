@@ -22,7 +22,7 @@ namespace FunApi.Controllers
         [HttpGet("{name}")]
         public async Task<ServiceResponse<GeneratedName>> Get(string name)
         {
-            return await _generatorService.GetGeneratedName(name);
+            return await _generatorService.CheckIfGeneratedNameExist(name);
         }
 
         [HttpPost]

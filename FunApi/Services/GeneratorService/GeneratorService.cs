@@ -56,7 +56,7 @@ namespace FunApi.Services.GeneratorService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GeneratedName>> GetGeneratedName(string name)
+        public async Task<ServiceResponse<GeneratedName>> CheckIfGeneratedNameExist(string name)
         {
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
 
