@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FunApi.Constants
 {
@@ -19,15 +16,8 @@ namespace FunApi.Constants
         public static string NameIsNotValid = "Name should only contain letters";
         public static string NameIsValid = "Name is valid";
         public static string NameExistsInNameDatabase = "Name is not unique, it exists in name database.";
-        public static string ElonMuskPunMessage = "Name must be valid, not unlike Elon's child";
-        public static string GetNamesAmount(int amount)
-        {
-            return "Avarage name length calculated, names found : " + amount.ToString();
-        }
-        public static string GeneratedNameFailed(DateTime generatedDate)
-        {
-            return "That name is already taken. Generated at : " + generatedDate.ToString();
-        }
-
+        public static string ElonMuskPunExceptionMessage = "Name must be valid, not unlike Elon's child";
+        public static string GetNamesAmount(int amount) => $"Avarage name length calculated, names found : {amount}";
+        public static string GeneratedNameFailed(DateTime generatedDate) => $"That name is already taken. Generated at : {generatedDate.ToString()}";
     }
 }

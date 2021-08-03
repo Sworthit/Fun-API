@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9Iv5xKaulOZMqeiK1MLT5Ub4j7a7cHO6iGpIdKuZBOsgkjzZ+yeqjGTlDg+5WYSnzWEvdVXOgYpk0lFbZugvQg==",
+  "dgSpecHash": "jV+4nPaBsvxGe89yagtrFcx/Ml6pqkFaWZzhKLU5fNvpJrFOWJ/TArVZ1LQ9Wnq32ZOo74FeqwVQXUhKIDbGSg==",
   "success": true,
-  "projectFilePath": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj",
+  "projectFilePath": "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Macie\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Macie\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

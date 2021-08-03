@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FunApi.Migrations
 {
-    [DbContext(typeof(ApiDBContext))]
+    [DbContext(typeof(ApiDbContext))]
     partial class ApiDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -12,11 +12,11 @@ namespace FunApi.Services.GeneratorService
 {
     public class GeneratorService : IGeneratorService
     {
-        private readonly ApiDBContext _context;
+        private readonly ApiDbContext _context;
 
         private static int methodChooser = 0;
 
-        public GeneratorService(ApiDBContext context)
+        public GeneratorService(ApiDbContext context)
         {
             _context = context;
         }
@@ -25,27 +25,22 @@ namespace FunApi.Services.GeneratorService
         {
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
 
-            var namesList = await _context.GeneratedNames.ToListAsync();
-            var existingNameList = await _context.Names.ToListAsync();
+            var generatedNameCheck = await _context.GeneratedNames.Where(n => n.Name == name.Name).FirstOrDefaultAsync();
+            var nameCheck = await _context.Names.Where(n => n.Name == name.Name).FirstOrDefaultAsync();
 
-            foreach (var generatedName in namesList)
+            if (generatedNameCheck != null)
             {
-                if (name.Name == generatedName.Name)
-                {
-                    serviceResponse.Success = false;
-                    serviceResponse.Message = Messages.GeneratedNameFailed(generatedName.GeneratedDate);
-                    return serviceResponse;
-                }
+                serviceResponse.Success = false;
+                serviceResponse.Message = Messages.GeneratedNameFailed(generatedNameCheck.GeneratedDate);
+                return serviceResponse;
             }
-            foreach (var existingName in existingNameList)
+            if (nameCheck != null)
             {
-                if (name.Name == existingName.name)
-                {
-                    serviceResponse.Success = false;
-                    serviceResponse.Message = Messages.NameExistsInNameDatabase;
-                    return serviceResponse;
-                }
+                serviceResponse.Success = false;
+                serviceResponse.Message = Messages.NameExistsInNameDatabase;
+                return serviceResponse;
             }
+
             name.GeneratedDate = DateTime.Now.ToUniversalTime();
             _context.GeneratedNames.Add(name);
             await _context.SaveChangesAsync();
@@ -80,18 +75,20 @@ namespace FunApi.Services.GeneratorService
         {
             ServiceResponse<GeneratedName> serviceResponse = new ServiceResponse<GeneratedName>();
             Random random = new Random();
-            var nameList = await _context.Names.ToListAsync();
-            int randomIndex = random.Next(nameList.Count);
-            if (nameList.Count == 0)
+            var nameListCount = await _context.Names.CountAsync();
+            var randomIndex = random.Next(nameListCount);
+            if (nameListCount == 0)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = Messages.GetNamesFailed;
                 return serviceResponse;
             }
 
+            var nameFromList = await _context.Names.Skip(randomIndex).FirstAsync();
             var generatedName = new GeneratedName();
-            generatedName.Name = GenerateName(nameList[randomIndex].name);
+            generatedName.Name = GenerateName(nameFromList.Name);
             generatedName.GeneratedDate = DateTime.Now.ToUniversalTime();
+
             serviceResponse.Message = Messages.GenerateName;
             serviceResponse.Data = generatedName;
 

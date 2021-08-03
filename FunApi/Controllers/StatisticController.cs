@@ -12,7 +12,7 @@ namespace FunApi.Controllers
 {
     [ApiController]
     [Route("admin/[controller]")]
-    public class StatisticController : Controller
+    public class StatisticController : ControllerBase
     {
         private readonly IStatisticService _service;
 

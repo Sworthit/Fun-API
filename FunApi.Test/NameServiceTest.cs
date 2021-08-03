@@ -1,12 +1,6 @@
-﻿using FunApi.Context;
-using FunApi.Model;
+﻿using FunApi.Model;
 using FunApi.Services.NameService;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -26,7 +20,7 @@ namespace FunApi.Test
         public async Task AddName_IfGivenName_ContainsOnlyLetters_ShouldReturn_NewName()
         {
             // Arrange
-            var nameObj = new Name { name = "Maciek" };
+            var nameObj = new NameModel { Name = "Maciek" };
 
             // Act
             var result = await _serviceUnderTest.AddName(nameObj);
@@ -44,7 +38,7 @@ namespace FunApi.Test
         public async Task AddName_IfGivenName_ContainsInvalidSigns_ShouldReturn_Null(string badName)
         {
             // Arrange
-            var nameObj = new Name { name = badName };
+            var nameObj = new NameModel { Name = badName };
 
             // Act
             var result = await _serviceUnderTest.AddName(nameObj);
@@ -70,9 +64,9 @@ namespace FunApi.Test
         public async Task GetAllNames_IfDatabase_IsNotEmpty_ShouldReturn_ListOfNames()
         {
             // Arrange
-            var firstName = new Name { name = "Firstname" };
-            var secondName = new Name { name = "Secondname" };
-            var lastName = new Name { name = "Lastname" };
+            var firstName = new NameModel { Name = "Firstname" };
+            var secondName = new NameModel { Name = "Secondname" };
+            var lastName = new NameModel { Name = "Lastname" };
             InMemoryDatabase.Names.Add(firstName);
             InMemoryDatabase.Names.Add(secondName);
             InMemoryDatabase.Names.Add(lastName);
@@ -103,12 +97,12 @@ namespace FunApi.Test
         public async Task GetName_IfDatabase_IsNotEmpty_ShouldReturn_Name()
         {
             // Arrange
-            var name = new Name { name = "Maciek" };
+            var name = new NameModel { Name = "Maciek" };
             InMemoryDatabase.Names.Add(name);
             await InMemoryDatabase.SaveChangesAsync();
 
             // Act
-            var result = await _serviceUnderTest.GetName(name.name);
+            var result = await _serviceUnderTest.GetName(name.Name);
 
             // Assert
             result.Data.ShouldBe(name);

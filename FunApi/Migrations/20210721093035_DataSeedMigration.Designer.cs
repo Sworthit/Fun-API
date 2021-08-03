@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FunApi.Migrations
 {
-    [DbContext(typeof(ApiDBContext))]
+    [DbContext(typeof(ApiDbContext))]
     [Migration("20210721093035_DataSeedMigration")]
     partial class DataSeedMigration
     {

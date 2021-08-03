@@ -1,8 +1,5 @@
 ﻿using FunApi.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -10,13 +7,13 @@ namespace FunApi.Test
 {
     public abstract class TestBase : IAsyncLifetime
     {
-        private readonly DbContextOptions<ApiDBContext> _options;
-        protected ApiDBContext InMemoryDatabase { get; private set; }
+        private readonly DbContextOptions<ApiDbContext> _options;
+        protected ApiDbContext InMemoryDatabase { get; private set; }
 
 
         public TestBase()
         {
-            _options = new DbContextOptionsBuilder<ApiDBContext>()
+            _options = new DbContextOptionsBuilder<ApiDbContext>()
                  .UseInMemoryDatabase(databaseName: "Names")
                  .Options;
         }
@@ -28,7 +25,7 @@ namespace FunApi.Test
 
         public virtual Task InitializeAsync()
         {
-            InMemoryDatabase = new ApiDBContext(_options);
+            InMemoryDatabase = new ApiDbContext(_options);
             return Task.CompletedTask;
         }
     }

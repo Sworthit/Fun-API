@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\FunApi.Test.csproj": {}
+    "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\FunApi.Test.csproj": {}
   },
   "projects": {
-    "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\FunApi.Test.csproj": {
+    "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\FunApi.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\FunApi.Test.csproj",
+        "projectUniqueName": "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\FunApi.Test.csproj",
         "projectName": "FunApi.Test",
-        "projectPath": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\FunApi.Test.csproj",
+        "projectPath": "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\FunApi.Test.csproj",
         "packagesPath": "C:\\Users\\Macie\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\obj\\",
+        "outputPath": "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi.Test\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
@@ -32,8 +32,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj": {
-                "projectPath": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj"
+              "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj": {
+                "projectPath": "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj"
               }
             }
           }
@@ -100,14 +100,14 @@
         }
       }
     },
-    "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj": {
+    "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj",
+        "projectUniqueName": "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj",
         "projectName": "FunApi",
-        "projectPath": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj",
+        "projectPath": "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\FunApi.csproj",
         "packagesPath": "C:\\Users\\Macie\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\obj\\",
+        "outputPath": "d:\\Dev\\Hyland\\Fun API\\FunApi\\FunApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"

@@ -1,9 +1,6 @@
 ﻿using FunApi.Model;
 using FunApi.Services.GeneratorService;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -54,7 +51,7 @@ namespace FunApi.Test
         public async Task AddGeneratedName_IfGivenName_ExistsInNamesDb_ShouldReturn_Null(string existingInNamesDbName)
         {
             // Arrange
-            var existingName = new Name { name = existingInNamesDbName };
+            var existingName = new NameModel { Name = existingInNamesDbName };
             var genName = new GeneratedName { Name = existingInNamesDbName };
             InMemoryDatabase.Names.Add(existingName);
             await InMemoryDatabase.SaveChangesAsync();
@@ -112,7 +109,7 @@ namespace FunApi.Test
         public async Task GetLuckyShotName_IfNameDatabase_IsNotEmpty_ShouldReturn_RandomName()
         {
             // Arrange
-            var name = new Name { name = "Maciek" };
+            var name = new NameModel { Name = "Maciek" };
             InMemoryDatabase.Names.Add(name);
             await InMemoryDatabase.SaveChangesAsync();
 
@@ -120,7 +117,7 @@ namespace FunApi.Test
             var result = await _serviceUnderTest.GetLuckyShotName();
 
             // Assert
-            result.Data.Name.Length.ShouldBe(name.name.Length);
+            result.Data.Name.Length.ShouldBe(name.Name.Length);
         }
     }
 }

@@ -11,8 +11,8 @@ namespace FunApi.Services.StatisticService
 {
     public class StatisticService : IStatisticService
     {
-        private readonly ApiDBContext _context;
-        public StatisticService(ApiDBContext context)
+        private readonly ApiDbContext _context;
+        public StatisticService(ApiDbContext context)
         {
             _context = context;
         }

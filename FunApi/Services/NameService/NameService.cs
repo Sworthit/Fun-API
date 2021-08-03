@@ -3,7 +3,6 @@ using FunApi.Context;
 using FunApi.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -12,25 +11,25 @@ namespace FunApi.Services.NameService
 
     public class NameService : INameService
     {
-        private ApiDBContext _context;
+        private ApiDbContext _context;
 
-        public NameService(ApiDBContext context)
+        public NameService(ApiDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ServiceResponse<Name>> AddName(Name newName)
+        public async Task<ServiceResponse<NameModel>> AddName(NameModel newName)
         {
-            ServiceResponse<Name> serviceResponse = new ServiceResponse<Name>();
+            ServiceResponse<NameModel> serviceResponse = new ServiceResponse<NameModel>();
             ServiceResponse<bool> validationResponse = new ServiceResponse<bool>();
-            validationResponse = ValidateName(newName.name);
+            validationResponse = ValidateName(newName.Name);
             if (!validationResponse.Data)
             {
                 serviceResponse.Message = validationResponse.Message;
                 serviceResponse.Success = validationResponse.Success;
                 return serviceResponse;
             }
-            var nameInDb = await _context.Names.FirstOrDefaultAsync(n => n.name == newName.name);
+            var nameInDb = await _context.Names.FirstOrDefaultAsync(n => n.Name == newName.Name);
 
             if (nameInDb != null)
             {
@@ -48,9 +47,9 @@ namespace FunApi.Services.NameService
 
         }
 
-        public async Task<ServiceResponse<List<Name>>> GetAllNames()
+        public async Task<ServiceResponse<List<NameModel>>> GetAllNames()
         {
-            ServiceResponse<List<Name>> serviceResponse = new ServiceResponse<List<Name>>();
+            ServiceResponse<List<NameModel>> serviceResponse = new ServiceResponse<List<NameModel>>();
             var names = await _context.Names.ToListAsync();
 
             if (names == null)
@@ -66,10 +65,10 @@ namespace FunApi.Services.NameService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<Name>> GetName(string name)
+        public async Task<ServiceResponse<NameModel>> GetName(string name)
         {
-            ServiceResponse<Name> serviceResponse = new ServiceResponse<Name>();
-            var nameObject = await _context.Names.FirstOrDefaultAsync(c => c.name == name);
+            ServiceResponse<NameModel> serviceResponse = new ServiceResponse<NameModel>();
+            var nameObject = await _context.Names.FirstOrDefaultAsync(c => c.Name == name);
             if (nameObject == null)
             {
                 serviceResponse.Success = false;
@@ -93,7 +92,7 @@ namespace FunApi.Services.NameService
                 {
                     serviceResponse.Success = false;
                     serviceResponse.Data = false;
-                    serviceResponse.Message = Messages.ElonMuskPunMessage;
+                    serviceResponse.Message = Messages.ElonMuskPunExceptionMessage;
                     return serviceResponse;
                 }
                 serviceResponse.Success = false;

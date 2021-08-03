@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace FunApi.Model
 {
     [Table("Names")]
-    public class Name
+    public class NameModel
     {
         [Key]
         [Required]
         public int Id { get; set; }
 
         [Required]
-        public string name { get; set; }
+        public string Name { get; set; }
     }
 }

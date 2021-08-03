@@ -12,7 +12,7 @@ namespace FunApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NameController : Controller
+    public class NameController : ControllerBase
     {
         private readonly INameService _service;
 
@@ -22,19 +22,19 @@ namespace FunApi.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ServiceResponse<List<Name>>> GetAllNames()
+        public async Task<ServiceResponse<List<NameModel>>> GetAllNames()
         {
             return await _service.GetAllNames();
         }
 
         [HttpPost]
-        public async Task<ServiceResponse<Name>> SaveName(Name name)
+        public async Task<ServiceResponse<NameModel>> SaveName(NameModel name)
         {
             return await _service.AddName(name);
         }
 
         [HttpGet]
-        public async Task<ServiceResponse<Name>> GetByName([FromRoute]string name)
+        public async Task<ServiceResponse<NameModel>> GetByName([FromRoute]string name)
         {
             return await _service.GetName(name);
         }
